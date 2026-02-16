@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, Header
+from fastapi import FastAPI, Depends, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker
@@ -59,6 +59,8 @@ async def me(user=Depends(current_user_dep)):
 
 @app.post("/api/v1/dev-token", response_model=TokenResponse, include_in_schema=settings.env != "prod")
 async def dev_token(email: str) -> TokenResponse:
+    if settings.env == "prod":
+        raise HTTPException(status_code=404, detail="Not found")
     async with session_factory() as db:
         result = await db.execute(select(User).where(User.id == email))
         existing = result.scalar_one_or_none()

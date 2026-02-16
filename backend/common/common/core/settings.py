@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     debug: bool = True
     api_prefix: str = "/api/v1"
     cors_origins: str | list[AnyHttpUrl | str] = "http://localhost:3000"
-    secret_key: str = "change-me"
+    secret_key: str  # REQUIRED – no default; set SECRET_KEY env var
     jwt_algorithm: str = "HS256"
     jwt_exp_minutes: int = 60 * 24
     supabase_db_url: str
