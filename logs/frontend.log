@@ -1,0 +1,135 @@
+
+> ai-marketing-asset-engine-frontend@0.1.0 dev
+> next dev -p 3000
+
+  ▲ Next.js 14.2.16
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+
+   We detected TypeScript in your project and reconfigured your tsconfig.json file for you. Strict-mode is set to false by default.
+   The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
+
+   	- include was updated to add '.next/types/**/*.ts'
+
+ ✓ Ready in 22.9s
+ ○ Compiling / ...
+ ✓ Compiled / in 46.7s (465 modules)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../typescript/lib/typescript' in d:\ai-practise\marketing3\frontend\node_modules\next\dist\build for build dependencies doesn't lead to expected result 'D:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js', but to 'd:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../typescript/lib/typescript (expected D:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js)
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at resolve commonjs d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../typescript/lib/typescript' in d:\ai-practise\marketing3\frontend\node_modules\next\dist\build for build dependencies doesn't lead to expected result 'D:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js', but to 'd:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../typescript/lib/typescript (expected D:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js)
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at resolve commonjs d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+ GET / 200 in 44ms
+ GET / 200 in 216ms
+ ○ Compiling /campaigns ...
+ ✓ Compiled /campaigns in 2.9s (517 modules)
+ ○ Compiling /assets ...
+ ✓ Compiled /assets in 802ms (509 modules)
+ ○ Compiling /ai-studio ...
+ ✓ Compiled /ai-studio in 1002ms (515 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 883ms (514 modules)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 1183ms
+ GET / 200 in 521ms
+ GET /campaigns 200 in 80ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 74ms
+ GET / 200 in 135ms
+ GET / 200 in 53ms
+ GET / 200 in 63ms
+
+> ai-marketing-asset-engine-frontend@0.1.0 dev
+> next dev -p 3000
+
+  ▲ Next.js 14.2.16
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 32.5s
+ ○ Compiling / ...
+ ✓ Compiled / in 16.9s (465 modules)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../typescript/lib/typescript' in d:\ai-practise\marketing3\frontend\node_modules\next\dist\build for build dependencies doesn't lead to expected result 'D:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js', but to 'd:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../typescript/lib/typescript (expected D:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js)
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\handle-externals.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\handle-externals.js
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at resolve commonjs d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../typescript/lib/typescript' in d:\ai-practise\marketing3\frontend\node_modules\next\dist\build for build dependencies doesn't lead to expected result 'D:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js', but to 'd:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../typescript/lib/typescript (expected D:\ai-practise\marketing3\frontend\node_modules\typescript\lib\typescript.js)
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file dependencies d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at file d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at resolve commonjs d:\ai-practise\marketing3\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+ GET / 200 in 49ms
+[?25h
+
+> ai-marketing-asset-engine-frontend@0.1.0 dev
+> next dev -p 3000
+
+  ▲ Next.js 14.2.16
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 3.9s
+ ○ Compiling / ...
+ ✓ Compiled / in 1041ms (451 modules)
+ GET / 200 in 1377ms
+[?25h
+
+> ai-marketing-asset-engine-frontend@0.1.0 dev
+> next dev -p 3000
+
+  ▲ Next.js 14.2.16
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 6.5s
+[?25h
+
+> ai-marketing-asset-engine-frontend@0.1.0 dev
+> next dev -p 3000
+
+  ▲ Next.js 14.2.16
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.8s
+ ○ Compiling / ...
+ ✓ Compiled / in 2.3s (451 modules)
+ GET / 200 in 2873ms
+ GET / 200 in 40ms
+[?25h
+
+> ai-marketing-asset-engine-frontend@0.1.0 dev
+> next dev -p 3000
+
+  ▲ Next.js 14.2.16
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 7.4s
+ ○ Compiling / ...
+ ✓ Compiled / in 5.5s (451 modules)
+ GET / 200 in 6713ms
+[?25h

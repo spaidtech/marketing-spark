@@ -1,0 +1,86 @@
+services:
+  - type: redis
+    name: marketing-engine-redis
+    ipAllowList: []
+    plan: starter
+
+  - type: web
+    name: auth-service
+    runtime: docker
+    dockerfilePath: backend/auth-service/Dockerfile
+    rootDir: .
+    envVars:
+      - key: ENV
+        value: prod
+      - key: SERVICE_NAME
+        value: auth-service
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: marketing-engine-redis
+          property: connectionString
+
+  - type: web
+    name: billing-service
+    runtime: docker
+    dockerfilePath: backend/billing-service/Dockerfile
+    rootDir: .
+    envVars:
+      - key: ENV
+        value: prod
+      - key: SERVICE_NAME
+        value: billing-service
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: marketing-engine-redis
+          property: connectionString
+
+  - type: web
+    name: campaign-service
+    runtime: docker
+    dockerfilePath: backend/campaign-service/Dockerfile
+    rootDir: .
+    envVars:
+      - key: ENV
+        value: prod
+      - key: SERVICE_NAME
+        value: campaign-service
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: marketing-engine-redis
+          property: connectionString
+
+  - type: web
+    name: ai-generation-service
+    runtime: docker
+    dockerfilePath: backend/ai-generation-service/Dockerfile
+    rootDir: .
+    envVars:
+      - key: ENV
+        value: prod
+      - key: SERVICE_NAME
+        value: ai-generation-service
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: marketing-engine-redis
+          property: connectionString
+
+  - type: web
+    name: asset-service
+    runtime: docker
+    dockerfilePath: backend/asset-service/Dockerfile
+    rootDir: .
+    envVars:
+      - key: ENV
+        value: prod
+      - key: SERVICE_NAME
+        value: asset-service
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: marketing-engine-redis
+          property: connectionString
+

@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install backend deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+          pip install -e backend/common
+      - name: Run backend tests
+        env:
+          SUPABASE_DB_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/postgres
+          SUPABASE_URL: https://example.supabase.co
+          SUPABASE_ANON_KEY: dummy
+          SUPABASE_SERVICE_ROLE_KEY: dummy
+          GOOGLE_CLIENT_ID: dummy
+        run: |
+          cd backend/auth-service && PYTHONPATH=../common:. pytest tests && cd ../..
+          cd backend/billing-service && PYTHONPATH=../common:. pytest tests && cd ../..
+          cd backend/campaign-service && PYTHONPATH=../common:. pytest tests && cd ../..
+          cd backend/ai-generation-service && PYTHONPATH=../common:. pytest tests && cd ../..
+          cd backend/asset-service && PYTHONPATH=../common:. pytest tests && cd ../..
+
+  frontend-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install frontend deps
+        run: npm install
+      - name: Build frontend
+        run: npm run build

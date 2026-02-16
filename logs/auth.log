@@ -1,0 +1,410 @@
+Traceback (most recent call last):
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\google\auth\transport\requests.py", line 26, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\miniconda3\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\ProgramData\miniconda3\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\main.py", line 410, in main
+    run(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\main.py", line 577, in run
+    server.run()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\ProgramData\miniconda3\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "C:\ProgramData\miniconda3\lib\asyncio\base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 69, in serve
+    await self._serve(sockets)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 76, in _serve
+    config.load()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "C:\ProgramData\miniconda3\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "d:\ai-practise\marketing3\backend\auth-service\app\main.py", line 8, in <module>
+    from common.core.security import create_access_token
+  File "d:\ai-practise\marketing3\backend\common\common\core\security.py", line 4, in <module>
+    from google.auth.transport import requests
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\google\auth\transport\requests.py", line 28, in <module>
+    raise ImportError(
+ImportError: The requests library is not installed from please install the requests package to use the requests transport.
+INFO:     Started server process [20420]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55796 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57201 - "POST /api/v1/dev-token?email=founder%40example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55604 - "POST /api/v1/dev-token?email=e2e-2110214096@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55604 - "GET /api/v1/me HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 401, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 70, in __call__
+    return await self.app(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\fastapi\applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\middleware\errors.py", line 187, in __call__
+    raise exc
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\middleware\errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\routing.py", line 73, in app
+    response = await f(request)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\fastapi\routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\fastapi\routing.py", line 212, in run_endpoint_function
+    return await dependant.call(**values)
+  File "d:\ai-practise\marketing3\backend\auth-service\app\main.py", line 48, in me
+    result = await db.execute(select(User).where(User.id == user["id"]))
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 461, in execute
+    result = await greenlet_spawn(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\orm\session.py", line 2362, in execute
+    return self._execute_internal(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\orm\session.py", line 2237, in _execute_internal
+    conn = self._connection_for_bind(bind)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\orm\session.py", line 2106, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+  File "<string>", line 2, in _connection_for_bind
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\orm\session.py", line 1189, in _connection_for_bind
+    conn = bind.connect()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\engine\base.py", line 3278, in connect
+    return self._connection_cls(self)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\engine\base.py", line 3302, in raw_connection
+    return self.pool.connect()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 1263, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\impl.py", line 177, in _do_get
+    return self._create_connection()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 674, in __init__
+    self.__connect()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\engine\create.py", line 643, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\engine\default.py", line 621, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 953, in connect
+    await_only(creator_fn(*arg, **kw)),
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\asyncpg\connection.py", line 2329, in connect
+    return await connect_utils._connect(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\asyncpg\connect_utils.py", line 991, in _connect
+    conn = await _connect_addr(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\asyncpg\connect_utils.py", line 828, in _connect_addr
+    return await __connect_addr(params, True, *args)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\asyncpg\connect_utils.py", line 876, in __connect_addr
+    await connected
+asyncpg.exceptions.InvalidPasswordError: password authentication failed for user "postgres"
+INFO:     127.0.0.1:52816 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60672 - "POST /api/v1/dev-token?email=e2e-verify-92846029@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60672 - "GET /api/v1/me HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 401, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 70, in __call__
+    return await self.app(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\fastapi\applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\middleware\errors.py", line 187, in __call__
+    raise exc
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\middleware\errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\starlette\routing.py", line 73, in app
+    response = await f(request)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\fastapi\routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\fastapi\routing.py", line 212, in run_endpoint_function
+    return await dependant.call(**values)
+  File "d:\ai-practise\marketing3\backend\auth-service\app\main.py", line 48, in me
+    result = await db.execute(select(User).where(User.id == user["id"]))
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 461, in execute
+    result = await greenlet_spawn(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\orm\session.py", line 2362, in execute
+    return self._execute_internal(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\orm\session.py", line 2237, in _execute_internal
+    conn = self._connection_for_bind(bind)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\orm\session.py", line 2106, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+  File "<string>", line 2, in _connection_for_bind
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\orm\session.py", line 1189, in _connection_for_bind
+    conn = bind.connect()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\engine\base.py", line 3278, in connect
+    return self._connection_cls(self)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\engine\base.py", line 3302, in raw_connection
+    return self.pool.connect()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 1263, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\impl.py", line 177, in _do_get
+    return self._create_connection()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 674, in __init__
+    self.__connect()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\engine\create.py", line 643, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\engine\default.py", line 621, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 953, in connect
+    await_only(creator_fn(*arg, **kw)),
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\asyncpg\connection.py", line 2329, in connect
+    return await connect_utils._connect(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\asyncpg\connect_utils.py", line 991, in _connect
+    conn = await _connect_addr(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\asyncpg\connect_utils.py", line 828, in _connect_addr
+    return await __connect_addr(params, True, *args)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\asyncpg\connect_utils.py", line 876, in __connect_addr
+    await connected
+asyncpg.exceptions.InvalidPasswordError: password authentication failed for user "postgres"
+INFO:     127.0.0.1:49995 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62994 - "POST /api/v1/dev-token?email=e2e-hf-1775957213@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62848 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63141 - "POST /api/v1/dev-token?email=e2e-hf-684245096@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65140 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52023 - "POST /api/v1/dev-token?email=recheck-1551456351@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58648 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53833 - "POST /api/v1/dev-token?email=recheck2-1888507233@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61481 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54941 - "POST /api/v1/dev-token?email=recheck3-39861912@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53045 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50590 - "POST /api/v1/dev-token?email=recheck4-757888935@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62812 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55674 - "POST /api/v1/dev-token?email=recheck5-1710783662@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49993 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62907 - "POST /api/v1/dev-token?email=recheck6-533853815@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55951 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50625 - "POST /api/v1/dev-token?email=recheck7-79327509@example.com HTTP/1.1" 200 OK
+INFO:     Started server process [16764]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:52074 - "POST /api/v1/dev-token?email=recheck8-1332971380@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52081 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60258 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60279 - "POST /api/v1/dev-token?email=recheck9-396437020@example.com HTTP/1.1" 200 OK
+INFO:     Started server process [12836]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:52594 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57079 - "POST /api/v1/dev-token?email=hardreset-1127659543@example.com HTTP/1.1" 200 OK
+Traceback (most recent call last):
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 545, in __call__
+    field_value = self.prepare_field_value(field_name, field, field_value, value_is_complex)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 757, in prepare_field_value
+    raise e
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 754, in prepare_field_value
+    value = self.decode_complex_value(field_name, field, value)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 307, in decode_complex_value
+    return json.loads(value)
+  File "C:\ProgramData\miniconda3\lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "C:\ProgramData\miniconda3\lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "C:\ProgramData\miniconda3\lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\miniconda3\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\ProgramData\miniconda3\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\main.py", line 410, in main
+    run(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\main.py", line 577, in run
+    server.run()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\ProgramData\miniconda3\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "C:\ProgramData\miniconda3\lib\asyncio\base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 69, in serve
+    await self._serve(sockets)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 76, in _serve
+    config.load()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "C:\ProgramData\miniconda3\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "d:\ai-practise\marketing3\backend\auth-service\app\main.py", line 13, in <module>
+    from app.api.v1.routes import router as auth_router
+  File "d:\ai-practise\marketing3\backend\auth-service\app\api\v1\routes.py", line 12, in <module>
+    settings = get_settings()
+  File "d:\ai-practise\marketing3\backend\common\common\core\settings.py", line 53, in get_settings
+    return Settings()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\main.py", line 153, in __init__
+    **__pydantic_self__._settings_build_values(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\main.py", line 357, in _settings_build_values
+    source_state = source()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 973, in __call__
+    data: dict[str, Any] = super().__call__()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 547, in __call__
+    raise SettingsError(
+pydantic_settings.sources.SettingsError: error parsing value for field "cors_origins" from source "DotEnvSettingsSource"
+INFO:     Started server process [7672]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:61240 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62979 - "POST /api/v1/dev-token?email=fixcheck-2000187921@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65388 - "POST /api/v1/dev-token?email=fixcheck2-368534803@example.com HTTP/1.1" 200 OK
+INFO:     Started server process [18212]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:61731 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61740 - "POST /api/v1/dev-token?email=fixedflow@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60774 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60787 - "POST /api/v1/dev-token?email=retest-1568849298@example.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55227 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55227 - "POST /api/v1/dev-token?email=retest2-2089727451@example.com HTTP/1.1" 200 OK
+INFO:     Started server process [29988]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:65153 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65176 - "POST /api/v1/dev-token?email=hardretest-533562800@example.com HTTP/1.1" 200 OK
+INFO:     Started server process [13876]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:56439 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56458 - "POST /api/v1/dev-token?email=hardretest2-2138458801@example.com HTTP/1.1" 200 OK

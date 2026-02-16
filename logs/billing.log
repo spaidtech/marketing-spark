@@ -1,0 +1,166 @@
+Traceback (most recent call last):
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\google\auth\transport\requests.py", line 26, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\miniconda3\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\ProgramData\miniconda3\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\main.py", line 410, in main
+    run(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\main.py", line 577, in run
+    server.run()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\ProgramData\miniconda3\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "C:\ProgramData\miniconda3\lib\asyncio\base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 69, in serve
+    await self._serve(sockets)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 76, in _serve
+    config.load()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "C:\ProgramData\miniconda3\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "d:\ai-practise\marketing3\backend\billing-service\app\main.py", line 6, in <module>
+    from app.api.v1.routes import router
+  File "d:\ai-practise\marketing3\backend\billing-service\app\api\v1\routes.py", line 8, in <module>
+    from common.utils.deps import get_current_user
+  File "d:\ai-practise\marketing3\backend\common\common\utils\deps.py", line 2, in <module>
+    from common.core.security import verify_access_token
+  File "d:\ai-practise\marketing3\backend\common\common\core\security.py", line 4, in <module>
+    from google.auth.transport import requests
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\google\auth\transport\requests.py", line 28, in <module>
+    raise ImportError(
+ImportError: The requests library is not installed from please install the requests package to use the requests transport.
+INFO:     Started server process [29188]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
+INFO:     127.0.0.1:58560 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52205 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53635 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61138 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59268 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52085 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49670 - "GET /health HTTP/1.1" 200 OK
+INFO:     Started server process [10292]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
+INFO:     127.0.0.1:52083 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60263 - "GET /health HTTP/1.1" 200 OK
+INFO:     Started server process [7152]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50268 - "GET /health HTTP/1.1" 200 OK
+Traceback (most recent call last):
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 545, in __call__
+    field_value = self.prepare_field_value(field_name, field, field_value, value_is_complex)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 757, in prepare_field_value
+    raise e
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 754, in prepare_field_value
+    value = self.decode_complex_value(field_name, field, value)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 307, in decode_complex_value
+    return json.loads(value)
+  File "C:\ProgramData\miniconda3\lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "C:\ProgramData\miniconda3\lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "C:\ProgramData\miniconda3\lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\miniconda3\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\ProgramData\miniconda3\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\main.py", line 410, in main
+    run(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\main.py", line 577, in run
+    server.run()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\ProgramData\miniconda3\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "C:\ProgramData\miniconda3\lib\asyncio\base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 69, in serve
+    await self._serve(sockets)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\server.py", line 76, in _serve
+    config.load()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\uvicorn\importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "C:\ProgramData\miniconda3\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "d:\ai-practise\marketing3\backend\billing-service\app\main.py", line 6, in <module>
+    from app.api.v1.routes import router
+  File "d:\ai-practise\marketing3\backend\billing-service\app\api\v1\routes.py", line 11, in <module>
+    settings = get_settings()
+  File "d:\ai-practise\marketing3\backend\common\common\core\settings.py", line 53, in get_settings
+    return Settings()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\main.py", line 153, in __init__
+    **__pydantic_self__._settings_build_values(
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\main.py", line 357, in _settings_build_values
+    source_state = source()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 973, in __call__
+    data: dict[str, Any] = super().__call__()
+  File "d:\ai-practise\marketing3\.venv\lib\site-packages\pydantic_settings\sources.py", line 547, in __call__
+    raise SettingsError(
+pydantic_settings.sources.SettingsError: error parsing value for field "cors_origins" from source "DotEnvSettingsSource"
+INFO:     Started server process [24464]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
+INFO:     127.0.0.1:60777 - "GET /health HTTP/1.1" 200 OK
+INFO:     Started server process [18660]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
+INFO:     127.0.0.1:65155 - "GET /health HTTP/1.1" 200 OK

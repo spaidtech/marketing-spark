@@ -1,0 +1,100 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: marketing_engine
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: backend/auth-service/Dockerfile
+    env_file: .env
+    environment:
+      SERVICE_NAME: auth-service
+    ports:
+      - "8001:8001"
+    depends_on:
+      - postgres
+      - redis
+
+  billing-service:
+    build:
+      context: .
+      dockerfile: backend/billing-service/Dockerfile
+    env_file: .env
+    environment:
+      SERVICE_NAME: billing-service
+    ports:
+      - "8002:8002"
+    depends_on:
+      - postgres
+      - redis
+
+  campaign-service:
+    build:
+      context: .
+      dockerfile: backend/campaign-service/Dockerfile
+    env_file: .env
+    environment:
+      SERVICE_NAME: campaign-service
+    ports:
+      - "8003:8003"
+    depends_on:
+      - postgres
+      - redis
+
+  ai-generation-service:
+    build:
+      context: .
+      dockerfile: backend/ai-generation-service/Dockerfile
+    env_file: .env
+    environment:
+      SERVICE_NAME: ai-generation-service
+    ports:
+      - "8004:8004"
+    depends_on:
+      - postgres
+      - redis
+
+  asset-service:
+    build:
+      context: .
+      dockerfile: backend/asset-service/Dockerfile
+    env_file: .env
+    environment:
+      SERVICE_NAME: asset-service
+    ports:
+      - "8005:8005"
+    depends_on:
+      - postgres
+      - redis
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    env_file: .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-service
+      - billing-service
+      - campaign-service
+      - ai-generation-service
+      - asset-service
+
+volumes:
+  pg_data:
+
