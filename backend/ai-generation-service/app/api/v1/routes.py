@@ -1,47 +1,36 @@
 import json
+import logging
 import time
-from fastapi import APIRouter, Depends, Header, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 import httpx
 from sqlalchemy import select
 
 from common.core.settings import get_settings
 from common.db.session import build_session_factory
-from common.models import User, UsageEvent
+from common.models import UsageEvent
 from common.schemas.common import (
     AIImageRequest,
     SuggestionRequest,
     SuggestionOut,
 )
-from common.utils.deps import get_current_user
+from common.utils.deps import build_current_user_dep
 from common.utils.rate_limit import RateLimiter
+from common.utils.credits import deduct_credits, refund_credits
 from app.services.llm_client import generate_text_huggingface
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["ai"])
 settings = get_settings()
 session_factory = build_session_factory(settings.supabase_db_url)
+current_user_dep = build_current_user_dep(settings)
 limiter: RateLimiter | None = None
 
 
 def set_limiter(rate_limiter: RateLimiter) -> None:
     global limiter
     limiter = rate_limiter
-
-
-async def current_user_dep(authorization: str | None = Header(default=None)):
-    return await get_current_user(authorization, settings)
-
-
-async def consume_credits(user_id: str, amount: int) -> None:
-    async with session_factory() as db:
-        result = await db.execute(select(User).where(User.id == user_id))
-        db_user = result.scalar_one_or_none()
-        if not db_user:
-            raise HTTPException(status_code=404, detail="User not found")
-        if db_user.credits_balance < amount:
-            raise HTTPException(status_code=402, detail="Insufficient credits")
-        db_user.credits_balance -= amount
-        await db.commit()
 
 
 async def save_usage(user_id: str, endpoint: str, latency_ms: int, success: bool, cost_usd: float):
@@ -91,7 +80,11 @@ async def generate_text_deepseek(prompt: str) -> str:
 async def generate_text(payload: GenerateTextRequest, user=Depends(current_user_dep)):
     if limiter:
         await limiter.enforce(f"rate:ai:text:{user['id']}")
-    await consume_credits(user["id"], 2)
+
+    credit_cost = 2
+    await deduct_credits(
+        session_factory, user["id"], credit_cost, "ai_text_generation"
+    )
 
     started = time.perf_counter()
     success = True
@@ -103,9 +96,15 @@ async def generate_text(payload: GenerateTextRequest, user=Depends(current_user_
             generated_text = await generate_text_deepseek(payload.prompt)
     except HTTPException:
         success = False
+        await refund_credits(
+            session_factory, user["id"], credit_cost, "refund:ai_text_generation_failed"
+        )
         raise
     except Exception as exc:
         success = False
+        await refund_credits(
+            session_factory, user["id"], credit_cost, "refund:ai_text_generation_failed"
+        )
         provider = settings.llm_provider.lower()
         raise HTTPException(status_code=502, detail=f"{provider} text generation error: {exc}") from exc
     finally:
@@ -119,7 +118,12 @@ async def generate_text(payload: GenerateTextRequest, user=Depends(current_user_
 async def generate_image(payload: AIImageRequest, user=Depends(current_user_dep)):
     if limiter:
         await limiter.enforce(f"rate:ai:image:{user['id']}")
-    await consume_credits(user["id"], 8)
+
+    credit_cost = 8
+    await deduct_credits(
+        session_factory, user["id"], credit_cost, "ai_image_generation"
+    )
+
     started = time.perf_counter()
     success = True
     try:
@@ -145,8 +149,17 @@ async def generate_image(payload: AIImageRequest, user=Depends(current_user_dep)
             data = response.json()
             image_url = data.get("output", {}).get("image_url") or data.get("output", [None])[0]
             return {"campaign_id": payload.campaign_id, "image_url": image_url}
+    except HTTPException:
+        success = False
+        await refund_credits(
+            session_factory, user["id"], credit_cost, "refund:ai_image_generation_failed"
+        )
+        raise
     except Exception as exc:
         success = False
+        await refund_credits(
+            session_factory, user["id"], credit_cost, "refund:ai_image_generation_failed"
+        )
         raise HTTPException(status_code=502, detail=f"RunPod error: {exc}") from exc
     finally:
         latency_ms = int((time.perf_counter() - started) * 1000)
@@ -174,15 +187,32 @@ async def suggestion_engine(payload: SuggestionRequest, user=Depends(current_use
 async def refine_asset(content: str, instruction: str, user=Depends(current_user_dep)):
     if limiter:
         await limiter.enforce(f"rate:ai:refine:{user['id']}")
-    await consume_credits(user["id"], 2)
-    refined = f"{content}\n\n[Refine instruction applied]: {instruction}"
-    return {"refined_content": refined}
+
+    credit_cost = 2
+    await deduct_credits(session_factory, user["id"], credit_cost, "ai_refine")
+
+    try:
+        refined = f"{content}\n\n[Refine instruction applied]: {instruction}"
+        return {"refined_content": refined}
+    except Exception:
+        await refund_credits(
+            session_factory, user["id"], credit_cost, "refund:ai_refine_failed"
+        )
+        raise
 
 
 @router.post("/ai/regenerate")
 async def regenerate_asset(context: dict, user=Depends(current_user_dep)):
     if limiter:
         await limiter.enforce(f"rate:ai:regenerate:{user['id']}")
-    await consume_credits(user["id"], 3)
-    return {"regenerated": json.dumps(context), "note": "Regenerated with fresh variation"}
 
+    credit_cost = 3
+    await deduct_credits(session_factory, user["id"], credit_cost, "ai_regenerate")
+
+    try:
+        return {"regenerated": json.dumps(context), "note": "Regenerated with fresh variation"}
+    except Exception:
+        await refund_credits(
+            session_factory, user["id"], credit_cost, "refund:ai_regenerate_failed"
+        )
+        raise

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { api } from "@/lib/api";
+import { api, ApiError } from "@/lib/api";
 
 export default function AIStudioPage() {
   const [campaignId, setCampaignId] = useState(1);
@@ -11,35 +11,55 @@ export default function AIStudioPage() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [balance, setBalance] = useState<number | null>(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function runText() {
     try {
       setError("");
+      setLoading(true);
       const data = await api.generateText({ campaign_id: campaignId, prompt, tone: "bold", channel: "landing_page" });
       setCopy(data.content);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof ApiError) setError(err.message);
+      else setError("Text generation failed");
+    } finally {
+      setLoading(false);
     }
   }
 
   async function runImage() {
     try {
       setError("");
+      setLoading(true);
       const data = await api.generateImage({ campaign_id: campaignId, prompt, style: "modern", width: 1024, height: 1024 });
       setImageUrl(data.image_url);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof ApiError) setError(err.message);
+      else setError("Image generation failed");
+    } finally {
+      setLoading(false);
     }
   }
 
   async function runSuggestions() {
-    const data = await api.suggestions({ campaign_id: campaignId, asset_text: copy || prompt });
-    setSuggestions(data.suggestions);
+    try {
+      setError("");
+      const data = await api.suggestions({ campaign_id: campaignId, asset_text: copy || prompt });
+      setSuggestions(data.suggestions);
+    } catch (err) {
+      if (err instanceof ApiError) setError(err.message);
+      else setError("Failed to get suggestions");
+    }
   }
 
   async function loadBalance() {
-    const data = await api.balance();
-    setBalance(data.balance);
+    try {
+      const data = await api.balance();
+      setBalance(data.balance);
+    } catch (err) {
+      if (err instanceof ApiError) setError(err.message);
+      else setError("Failed to check balance");
+    }
   }
 
   return (
@@ -59,8 +79,12 @@ export default function AIStudioPage() {
             onChange={(e) => setPrompt(e.target.value)}
           />
           <div className="flex flex-wrap gap-2">
-            <button className="rounded-lg bg-brand-500 px-4 py-2 text-white" onClick={runText}>Generate Text</button>
-            <button className="rounded-lg bg-brand-700 px-4 py-2 text-white" onClick={runImage}>Generate Image</button>
+            <button className="rounded-lg bg-brand-500 px-4 py-2 text-white disabled:opacity-50" onClick={runText} disabled={loading}>
+              {loading ? "Generating…" : "Generate Text"}
+            </button>
+            <button className="rounded-lg bg-brand-700 px-4 py-2 text-white disabled:opacity-50" onClick={runImage} disabled={loading}>
+              Generate Image
+            </button>
             <button className="rounded-lg bg-brand-100 px-4 py-2 text-brand-700" onClick={runSuggestions}>Optimize Suggestions</button>
             <button className="rounded-lg border px-4 py-2" onClick={loadBalance}>Check Credits</button>
           </div>
@@ -96,4 +120,3 @@ export default function AIStudioPage() {
     </section>
   );
 }
-

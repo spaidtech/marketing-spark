@@ -5,6 +5,7 @@ from common.models.entities import (
     AssetVersion,
     CreditLedger,
     UsageEvent,
+    CampaignStatus,
 )
 
 __all__ = [
@@ -14,5 +15,5 @@ __all__ = [
     "AssetVersion",
     "CreditLedger",
     "UsageEvent",
+    "CampaignStatus",
 ]
-

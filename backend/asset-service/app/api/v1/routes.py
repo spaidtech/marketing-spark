@@ -1,21 +1,24 @@
 import json
-from fastapi import APIRouter, Depends, Header, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 import httpx
-from sqlalchemy import select
+from sqlalchemy import select, func
 
 from common.core.settings import get_settings
 from common.db.session import build_session_factory
 from common.models import Asset, AssetVersion
-from common.schemas.common import AssetCreate, AssetUpdate, AssetOut, AssetVersionOut
-from common.utils.deps import get_current_user
+from common.schemas.common import (
+    AssetCreate,
+    AssetUpdate,
+    AssetOut,
+    AssetVersionOut,
+    PaginatedAssetOut,
+)
+from common.utils.deps import build_current_user_dep
 
 router = APIRouter(tags=["assets"])
 settings = get_settings()
 session_factory = build_session_factory(settings.supabase_db_url)
-
-
-async def current_user_dep(authorization: str | None = Header(default=None)):
-    return await get_current_user(authorization, settings)
+current_user_dep = build_current_user_dep(settings)
 
 
 async def upload_to_supabase(path: str, content: str) -> str:
@@ -66,11 +69,34 @@ async def create_asset(payload: AssetCreate, user=Depends(current_user_dep)):
         return asset
 
 
-@router.get("/assets", response_model=list[AssetOut])
-async def list_assets(user=Depends(current_user_dep)):
+@router.get("/assets", response_model=PaginatedAssetOut)
+async def list_assets(
+    campaign_id: int | None = Query(default=None, description="Filter by campaign"),
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100),
+    user=Depends(current_user_dep),
+):
     async with session_factory() as db:
-        result = await db.execute(select(Asset).where(Asset.owner_id == user["id"]))
-        return result.scalars().all()
+        base = select(Asset).where(Asset.owner_id == user["id"])
+        if campaign_id is not None:
+            base = base.where(Asset.campaign_id == campaign_id)
+
+        total_result = await db.execute(
+            select(func.count()).select_from(base.subquery())
+        )
+        total = total_result.scalar() or 0
+
+        result = await db.execute(
+            base.order_by(Asset.created_at.desc())
+            .offset((page - 1) * limit)
+            .limit(limit)
+        )
+        return PaginatedAssetOut(
+            items=result.scalars().all(),
+            total=total,
+            page=page,
+            limit=limit,
+        )
 
 
 @router.patch("/assets/{asset_id}", response_model=AssetOut)
@@ -147,4 +173,3 @@ async def switch_version(asset_id: int, delta: int, user_id: str):
         await db.commit()
         await db.refresh(asset)
         return asset
-
