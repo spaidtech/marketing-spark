@@ -22,7 +22,7 @@ current_user_dep = build_current_user_dep(settings)
 
 
 async def upload_to_supabase(path: str, content: str) -> str:
-    if not settings.supabase_service_role_key:
+    if not settings.supabase_service_role_key or settings.supabase_service_role_key == "dummy":
         return f"mock://{path}"
     async with httpx.AsyncClient(timeout=30) as client:
         url = f"{settings.supabase_url}/storage/v1/object/{settings.storage_bucket}/{path}"
@@ -36,7 +36,24 @@ async def upload_to_supabase(path: str, content: str) -> str:
         )
         if resp.status_code not in (200, 201):
             return f"mock://{path}"
-    return f"{settings.supabase_url}/storage/v1/object/public/{settings.storage_bucket}/{path}"
+    # Return internal path; serve via signed URL endpoint instead of public URL
+    return f"storage://{settings.storage_bucket}/{path}"
+
+
+async def create_signed_url(path: str, expires_in: int = 3600) -> str:
+    """Generate a short-lived signed URL for private storage access."""
+    if not settings.supabase_service_role_key or settings.supabase_service_role_key == "dummy":
+        return f"mock://{path}"
+    async with httpx.AsyncClient(timeout=10) as client:
+        resp = await client.post(
+            f"{settings.supabase_url}/storage/v1/object/sign/{settings.storage_bucket}/{path}",
+            headers={"Authorization": f"Bearer {settings.supabase_service_role_key}"},
+            json={"expiresIn": expires_in},
+        )
+        if resp.status_code == 200:
+            data = resp.json()
+            return f"{settings.supabase_url}/storage/v1{data.get('signedURL', '')}"
+    return f"mock://{path}"
 
 
 @router.post("/assets", response_model=AssetOut)

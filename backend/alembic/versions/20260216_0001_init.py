@@ -93,7 +93,50 @@ def upgrade() -> None:
     op.create_index("ix_usage_events_user_id", "usage_events", ["user_id"], unique=False)
 
 
+    # ── Enable Row-Level Security on all tables ──────────────────────
+    for table in ("users", "campaigns", "assets", "asset_versions", "credit_ledger", "usage_events"):
+        op.execute(f"ALTER TABLE {table} ENABLE ROW LEVEL SECURITY")
+
+    # Owner-scoped RLS policies
+    op.execute("""
+        CREATE POLICY users_self ON users FOR ALL
+        USING (id = current_setting('app.user_id', true))
+        WITH CHECK (id = current_setting('app.user_id', true))
+    """)
+    op.execute("""
+        CREATE POLICY campaigns_owner ON campaigns FOR ALL
+        USING (owner_id = current_setting('app.user_id', true))
+        WITH CHECK (owner_id = current_setting('app.user_id', true))
+    """)
+    op.execute("""
+        CREATE POLICY assets_owner ON assets FOR ALL
+        USING (owner_id = current_setting('app.user_id', true))
+        WITH CHECK (owner_id = current_setting('app.user_id', true))
+    """)
+    op.execute("""
+        CREATE POLICY asset_versions_owner ON asset_versions FOR ALL
+        USING (asset_id IN (SELECT id FROM assets WHERE owner_id = current_setting('app.user_id', true)))
+    """)
+    op.execute("""
+        CREATE POLICY credit_ledger_owner ON credit_ledger FOR ALL
+        USING (user_id = current_setting('app.user_id', true))
+    """)
+    op.execute("""
+        CREATE POLICY usage_events_owner ON usage_events FOR ALL
+        USING (user_id = current_setting('app.user_id', true))
+    """)
+
+
 def downgrade() -> None:
+    # Drop RLS policies
+    for table, policy in [
+        ("users", "users_self"), ("campaigns", "campaigns_owner"),
+        ("assets", "assets_owner"), ("asset_versions", "asset_versions_owner"),
+        ("credit_ledger", "credit_ledger_owner"), ("usage_events", "usage_events_owner"),
+    ]:
+        op.execute(f"DROP POLICY IF EXISTS {policy} ON {table}")
+    for table in ("users", "campaigns", "assets", "asset_versions", "credit_ledger", "usage_events"):
+        op.execute(f"ALTER TABLE {table} DISABLE ROW LEVEL SECURITY")
     op.drop_index("ix_usage_events_user_id", table_name="usage_events")
     op.drop_table("usage_events")
     op.drop_index("ix_credit_ledger_user_id", table_name="credit_ledger")
