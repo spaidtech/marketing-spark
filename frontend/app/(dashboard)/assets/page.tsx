@@ -1,17 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { api } from "@/lib/api";
+import { api, AssetData, ApiError } from "@/lib/api";
 
 export default function AssetsPage() {
-  const [assets, setAssets] = useState<any[]>([]);
+  const [assets, setAssets] = useState<AssetData[]>([]);
   const [form, setForm] = useState({ campaign_id: 1, asset_type: "ad_copy", title: "", content: "" });
-  const [selected, setSelected] = useState<any | null>(null);
+  const [selected, setSelected] = useState<AssetData | null>(null);
   const [updatedContent, setUpdatedContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   async function load() {
-    const data = await api.listAssets();
-    setAssets(data);
+    try {
+      setLoading(true);
+      setError("");
+      const data = await api.listAssets();
+      setAssets(data.items);
+    } catch (err) {
+      if (err instanceof ApiError) setError(err.message);
+      else setError("Failed to load assets");
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -20,23 +31,36 @@ export default function AssetsPage() {
 
   async function createAsset(e: React.FormEvent) {
     e.preventDefault();
-    await api.createAsset(form);
-    setForm({ ...form, title: "", content: "" });
-    await load();
+    try {
+      setError("");
+      await api.createAsset(form);
+      setForm({ ...form, title: "", content: "" });
+      await load();
+    } catch (err) {
+      if (err instanceof ApiError) setError(err.message);
+      else setError("Failed to create asset");
+    }
   }
 
   async function saveEdit() {
     if (!selected) return;
-    await api.updateAsset(selected.id, { content: updatedContent, change_note: "dashboard_edit" });
-    setSelected(null);
-    setUpdatedContent("");
-    await load();
+    try {
+      setError("");
+      await api.updateAsset(selected.id, { content: updatedContent, change_note: "dashboard_edit" });
+      setSelected(null);
+      setUpdatedContent("");
+      await load();
+    } catch (err) {
+      if (err instanceof ApiError) setError(err.message);
+      else setError("Failed to save edit");
+    }
   }
 
   return (
     <section className="grid gap-6 md:grid-cols-2">
       <form className="rounded-2xl bg-white p-6 shadow" onSubmit={createAsset}>
         <h2 className="text-lg font-semibold">Create Asset</h2>
+        {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
         <div className="mt-4 space-y-3">
           <input
             className="w-full rounded-lg border px-3 py-2"
@@ -57,6 +81,7 @@ export default function AssetsPage() {
 
       <div className="rounded-2xl bg-white p-6 shadow">
         <h2 className="text-lg font-semibold">Assets</h2>
+        {loading && <p className="mt-3 text-sm text-slate-500">Loading…</p>}
         <ul className="mt-4 space-y-3">
           {assets.map((a) => (
             <li key={a.id} className="rounded-lg border p-3">
@@ -94,4 +119,3 @@ export default function AssetsPage() {
     </section>
   );
 }
-

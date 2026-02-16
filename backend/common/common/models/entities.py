@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timezone
+from enum import Enum as PyEnum
 from sqlalchemy import (
     String,
     Integer,
@@ -7,15 +8,27 @@ from sqlalchemy import (
     Text,
     Boolean,
     Numeric,
+    Enum,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from common.db.base import Base
 
 
+class CampaignStatus(str, PyEnum):
+    draft = "draft"
+    active = "active"
+    paused = "paused"
+    completed = "completed"
+
+
+def _utcnow() -> datetime:
+    return datetime.now(timezone.utc)
+
+
 class TimestampMixin:
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+        DateTime(timezone=True), default=_utcnow, onupdate=_utcnow
     )
 
 
@@ -37,7 +50,9 @@ class Campaign(Base, TimestampMixin):
     name: Mapped[str] = mapped_column(String(255))
     goal: Mapped[str] = mapped_column(Text)
     audience: Mapped[str] = mapped_column(Text)
-    status: Mapped[str] = mapped_column(String(50), default="draft")
+    status: Mapped[str] = mapped_column(
+        String(50), default=CampaignStatus.draft.value
+    )
 
     owner: Mapped["User"] = relationship(back_populates="campaigns")
     assets: Mapped[list["Asset"]] = relationship(back_populates="campaign")
@@ -76,7 +91,7 @@ class CreditLedger(Base):
     delta: Mapped[int] = mapped_column(Integer)
     reason: Mapped[str] = mapped_column(String(120))
     reference_id: Mapped[str] = mapped_column(String(120), default="")
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
 
 
 class UsageEvent(Base):
@@ -88,5 +103,4 @@ class UsageEvent(Base):
     latency_ms: Mapped[int] = mapped_column(Integer, default=0)
     success: Mapped[bool] = mapped_column(Boolean, default=True)
     cost_usd: Mapped[float] = mapped_column(Numeric(10, 4), default=0.0)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)

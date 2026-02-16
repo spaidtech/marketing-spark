@@ -1,6 +1,8 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
 
+from common.models.entities import CampaignStatus
+
 
 class APIMessage(BaseModel):
     message: str
@@ -25,12 +27,23 @@ class CampaignCreate(BaseModel):
     audience: str = Field(min_length=3)
 
 
+class CampaignStatusUpdate(BaseModel):
+    status: CampaignStatus
+
+
 class CampaignOut(CampaignCreate):
     id: int
     owner_id: str
     status: str
     created_at: datetime
     updated_at: datetime
+
+
+class PaginatedCampaignOut(BaseModel):
+    items: list[CampaignOut]
+    total: int
+    page: int
+    limit: int
 
 
 class AssetCreate(BaseModel):
@@ -57,6 +70,13 @@ class AssetOut(BaseModel):
     updated_at: datetime
 
 
+class PaginatedAssetOut(BaseModel):
+    items: list[AssetOut]
+    total: int
+    page: int
+    limit: int
+
+
 class AssetVersionOut(BaseModel):
     id: int
     asset_id: int
@@ -75,6 +95,21 @@ class CreditMutation(BaseModel):
 class CreditBalanceOut(BaseModel):
     user_id: str
     balance: int
+
+
+class LedgerEntryOut(BaseModel):
+    id: int
+    delta: int
+    reason: str
+    reference_id: str
+    created_at: datetime
+
+
+class PaginatedLedgerOut(BaseModel):
+    items: list[LedgerEntryOut]
+    total: int
+    page: int
+    limit: int
 
 
 class AITextRequest(BaseModel):
@@ -99,4 +134,3 @@ class SuggestionRequest(BaseModel):
 
 class SuggestionOut(BaseModel):
     suggestions: list[str]
-

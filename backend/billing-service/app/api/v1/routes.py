@@ -1,19 +1,22 @@
-from fastapi import APIRouter, Depends, Header, HTTPException, status
-from sqlalchemy import select, desc
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy import select, func, desc
 
 from common.core.settings import get_settings
 from common.db.session import build_session_factory
 from common.models import User, CreditLedger
-from common.schemas.common import CreditMutation, CreditBalanceOut
-from common.utils.deps import get_current_user
+from common.schemas.common import (
+    CreditMutation,
+    CreditBalanceOut,
+    LedgerEntryOut,
+    PaginatedLedgerOut,
+)
+from common.utils.deps import build_current_user_dep
+from common.utils.credits import add_credits, deduct_credits
 
 router = APIRouter(tags=["billing"])
 settings = get_settings()
 session_factory = build_session_factory(settings.supabase_db_url)
-
-
-async def current_user_dep(authorization: str | None = Header(default=None)):
-    return await get_current_user(authorization, settings)
+current_user_dep = build_current_user_dep(settings)
 
 
 @router.get("/credits/balance", response_model=CreditBalanceOut)
@@ -22,74 +25,59 @@ async def credit_balance(user=Depends(current_user_dep)):
         existing = await db.execute(select(User).where(User.id == user["id"]))
         db_user = existing.scalar_one_or_none()
         if not db_user:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+            from fastapi import HTTPException
+            raise HTTPException(status_code=404, detail="User not found")
         return CreditBalanceOut(user_id=db_user.id, balance=db_user.credits_balance)
 
 
 @router.post("/credits/add", response_model=CreditBalanceOut)
 async def credit_add(payload: CreditMutation, user=Depends(current_user_dep)):
-    if payload.amount <= 0:
-        raise HTTPException(status_code=400, detail="Amount must be positive")
-    async with session_factory() as db:
-        existing = await db.execute(select(User).where(User.id == user["id"]))
-        db_user = existing.scalar_one_or_none()
-        if not db_user:
-            raise HTTPException(status_code=404, detail="User not found")
-        db_user.credits_balance += payload.amount
-        db.add(
-            CreditLedger(
-                user_id=db_user.id,
-                delta=payload.amount,
-                reason=payload.reason,
-                reference_id=payload.reference_id,
-            )
-        )
-        await db.commit()
-        return CreditBalanceOut(user_id=db_user.id, balance=db_user.credits_balance)
+    new_balance = await add_credits(
+        session_factory, user["id"], payload.amount, payload.reason, payload.reference_id
+    )
+    return CreditBalanceOut(user_id=user["id"], balance=new_balance)
 
 
 @router.post("/credits/deduct", response_model=CreditBalanceOut)
 async def credit_deduct(payload: CreditMutation, user=Depends(current_user_dep)):
-    if payload.amount <= 0:
-        raise HTTPException(status_code=400, detail="Amount must be positive")
+    new_balance = await deduct_credits(
+        session_factory, user["id"], payload.amount, payload.reason, payload.reference_id
+    )
+    return CreditBalanceOut(user_id=user["id"], balance=new_balance)
+
+
+@router.get("/credits/ledger", response_model=PaginatedLedgerOut)
+async def credit_ledger(
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100),
+    user=Depends(current_user_dep),
+):
     async with session_factory() as db:
-        existing = await db.execute(select(User).where(User.id == user["id"]))
-        db_user = existing.scalar_one_or_none()
-        if not db_user:
-            raise HTTPException(status_code=404, detail="User not found")
-        if db_user.credits_balance < payload.amount:
-            raise HTTPException(status_code=402, detail="Insufficient credits")
-        db_user.credits_balance -= payload.amount
-        db.add(
-            CreditLedger(
-                user_id=db_user.id,
-                delta=-payload.amount,
-                reason=payload.reason,
-                reference_id=payload.reference_id,
-            )
+        base = select(CreditLedger).where(CreditLedger.user_id == user["id"])
+
+        total_result = await db.execute(
+            select(func.count()).select_from(base.subquery())
         )
-        await db.commit()
-        return CreditBalanceOut(user_id=db_user.id, balance=db_user.credits_balance)
+        total = total_result.scalar() or 0
 
-
-@router.get("/credits/ledger")
-async def credit_ledger(limit: int = 50, user=Depends(current_user_dep)):
-    async with session_factory() as db:
         result = await db.execute(
-            select(CreditLedger)
-            .where(CreditLedger.user_id == user["id"])
-            .order_by(desc(CreditLedger.created_at))
+            base.order_by(desc(CreditLedger.created_at))
+            .offset((page - 1) * limit)
             .limit(limit)
         )
         rows = result.scalars().all()
-        return [
-            {
-                "id": row.id,
-                "delta": row.delta,
-                "reason": row.reason,
-                "reference_id": row.reference_id,
-                "created_at": row.created_at,
-            }
-            for row in rows
-        ]
-
+        return PaginatedLedgerOut(
+            items=[
+                LedgerEntryOut(
+                    id=r.id,
+                    delta=r.delta,
+                    reason=r.reason,
+                    reference_id=r.reference_id,
+                    created_at=r.created_at,
+                )
+                for r in rows
+            ],
+            total=total,
+            page=page,
+            limit=limit,
+        )
